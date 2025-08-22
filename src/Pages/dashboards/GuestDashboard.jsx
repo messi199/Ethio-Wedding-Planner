@@ -1,57 +1,79 @@
-// src/Pages/GuestDashboard.jsx
+// src/Pages/dashboards/GuestDashboard.jsx
 
-import React from 'react';
-import Navbar from '../../components/layout/Navbar'; // Assuming a generic navbar for all users
+import React, {useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../../components/layout/Navbar.jsx';
 
-// --- Dummy Data Simulation ---
-// In a real app, this data would come from the user's invitation details.
-const eventDetails = {
-  coupleNames: "Alex & Chris",
-  eventDate: "Saturday, October 26, 2025",
-  location: "The Grand Ballroom, Downtown",
-  message: "We're so excited to celebrate our special day with you. Please find the details below and let us know if you can make it!"
-};
-// ----------------------------
+// --- IMPORTING OUR NEW, FOCUSED COMPONENTS ---
+import GuestWelcome from '../../components/guest/GuestWelcome.jsx';
+import GuestEventInfo from '../../components/guest/GuestEventInfo.jsx';
+import GuestRsvp from '../../components/guest/GuestRsvp.jsx';
 
 export default function GuestDashboard() {
+  const navigate = useNavigate();
+  const [guestData, setGuestData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // This simulation provides all the necessary data for our new components.
+    const fetchGuestData = () => {
+      const user = JSON.parse(localStorage.getItem('weddingPlannerUser'));
+      if (!user) {
+        navigate('/login');
+        return;
+      }
+
+      const simulatedGuestData = {
+        user: user,
+        event: {
+          coupleNames: 'Alex & Jordan',
+          eventName: "A Celebration of Love",
+          date: 'Saturday, June 12, 2026',
+          time: '5:00 PM onwards',
+          venue: 'The Grand Hall',
+          address: '123 Vineyard Lane, Napa Valley, CA',
+          rsvpStatus: 'Pending', // Change to 'Accepted' to test the "Thank You" message
+        }
+      };
+      
+      setGuestData(simulatedGuestData);
+      setIsLoading(false);
+    };
+
+    setTimeout(fetchGuestData, 500);
+  }, [navigate]);
+
+  if (isLoading || !guestData) {
+    return (
+      <div className="bg-gray-50 min-h-screen">
+        <Navbar />
+        <div className="flex items-center justify-center" style={{minHeight: '80vh'}}>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-rose-500"></div>
+        </div>
+      </div>
+    );
+  }
+
+  const { user, event } = guestData;
+
   return (
     <div className="bg-gray-50 min-h-screen">
-      <Navbar />
+      <Navbar user={user} />
 
       <main className="p-4 md:p-8">
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-10 text-center animate-fade-in">
+        {/* A beautiful, single-column layout like a digital invitation */}
+        <div className="max-w-3xl mx-auto flex flex-col gap-8">
+        
+          <GuestWelcome coupleNames={event.coupleNames} eventName={event.eventName} />
           
-          <h2 className="text-2xl font-serif text-gray-500">You're invited to the wedding of</h2>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-rose-500 mt-2">
-            {eventDetails.coupleNames}
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-gray-600 mt-6 text-lg">
-            {eventDetails.message}
-          </p>
-
-          <div className="mt-8 border-t border-b border-gray-200 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col items-center justify-center">
-              <span className="text-sm font-semibold text-gray-500 uppercase">Date</span>
-              <p className="text-xl font-bold text-gray-800 mt-1">{eventDetails.eventDate}</p>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <span className="text-sm font-semibold text-gray-500 uppercase">Location</span>
-              <p className="text-xl font-bold text-gray-800 mt-1">{eventDetails.location}</p>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Will you be joining us?</h3>
-            <div className="flex justify-center space-x-4">
-              <button className="bg-green-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-600 transition-transform hover:scale-105">
-                Accept with Joy
-              </button>
-              <button className="bg-red-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-red-600 transition-transform hover:scale-105">
-                Regretfully Decline
-              </button>
-            </div>
-          </div>
+          <GuestEventInfo 
+            date={event.date}
+            time={event.time}
+            venue={event.venue}
+            address={event.address}
+          />
+          
+          <GuestRsvp status={event.rsvpStatus} />
 
         </div>
       </main>

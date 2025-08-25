@@ -1,5 +1,4 @@
 // src/components/layout/Footer.jsx
-
 import React from 'react';
 // Step 1: Make sure to import your rings.png image.
 // The path might need to be adjusted based on your file structure.
@@ -49,11 +48,12 @@ const Footer = () => {
           <div className="border-t border-red-300 pt-6 w-full max-w-md mx-auto">
             <p className="text-red-100">&copy; {new Date().getFullYear()} Ethio-Wedding Planner. All rights reserved.</p>
           </div>
-          
         </div>
       </div>
     </footer>
   );
+}
 };
 
 export default Footer;
+

@@ -1,109 +1,59 @@
 // src/components/layout/Footer.jsx
+import React from 'react';
+// Step 1: Make sure to import your rings.png image.
+// The path might need to be adjusted based on your file structure.
+// This path assumes Footer.jsx is in src/components/layout/
+import ringsImage from '../../assets/images/rings.png'; 
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-// --- 1. IMPORT FONT AWESOME ---
-// This is the main component that will display the icons.
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// This is where we import the specific icons we want to use.
-import { faFacebook, faInstagram, faTwitter, faPinterest } from '@fortawesome/free-brands-svg-icons';
-
-// --- This array makes it very easy to manage your social links ---
+// A simple array for social media links. You can add your actual links here.
 const socialLinks = [
-  { name: 'Facebook', href: '#', icon: faFacebook },
-  { name: 'Instagram', href: '#', icon: faInstagram },
-  { name: 'Twitter', href: '#', icon: faTwitter },
- 
+  { name: 'Facebook', icon: 'fab fa-facebook-f', url: '#' },
+  { name: 'Instagram', icon: 'fab fa-instagram', url: '#' },
+  { name: 'Pinterest', icon: 'fab fa-pinterest', url: '#' },
 ];
 
-export default function Footer({ logo }) {
-  const [email, setEmail] = useState('');
-
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    alert(`Thank you for subscribing, ${email}!`);
-    setEmail('');
-  };
-
+const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-gray-300">
-      <div className="max-w-7xl mx-auto py-16 px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
-          {/* Column 1: Brand & Newsletter */}
-          <div className="md:col-span-2 lg:col-span-1">
-            <img className="h-12 mb-4" src={logo} alt="Wedding Planner Logo" />
-            <p className="text-gray-400 mb-6">
-              Crafting unforgettable stories, one wedding at a time.
-            </p>
-            <form onSubmit={handleNewsletterSubmit}>
-              <label htmlFor="newsletter-email" className="font-semibold text-white">Stay Inspired</label>
-              <div className="mt-2 flex">
-                <input
-                  id="newsletter-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="Your email address"
-                  className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-rose-400"
-                />
-                <button type="submit" className="bg-rose-500 text-white px-4 py-2 rounded-r-md hover:bg-rose-600 font-semibold">
-                  Go
-                </button>
-              </div>
-            </form>
-          </div>
+    <footer 
+      className="relative bg-cover bg-center text-white py-12"
+      style={{ backgroundImage: `url(${ringsImage})` }}
+    >
+      {/* Dark Red Overlay for Readability */}
+      <div className="absolute inset-0 bg-red-900 opacity-80"></div>
 
-          {/* Column 2: For Couples */}
-          <div>
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase">For Couples</h3>
-            <ul className="mt-4 space-y-3">
-              <li><Link to="/planning-tools" className="hover:text-white">Planning Tools</Link></li>
-              <li><Link to="/vendors" className="hover:text-white">Find Vendors</Link></li>
-              <li><Link to="/guests" className="hover:text-white">Guest List</Link></li>
-            </ul>
-          </div>
+      {/* Content Container */}
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col items-center text-center">
 
-          {/* Column 3: Company */}
-          <div>
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Company</h3>
-            <ul className="mt-4 space-y-3">
-              <li><Link to="/about" className="hover:text-white">About Us</Link></li>
-              <li><Link to="/careers" className="hover:text-white">Careers</Link></li>
-              <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
-            </ul>
-          </div>
+          {/* Logo or Site Name */}
+          <h2 className="text-3xl font-bold mb-4">
+            Ethio-Wedding Planner
+          </h2>
 
-          {/* Column 4: Support */}
-          <div>
-            <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Support</h3>
-            <ul className="mt-4 space-y-3">
-              <li><Link to="/faq" className="hover:text-white">FAQ</Link></li>
-              <li><Link to="/privacy" className="hover:text-white">Privacy Policy</Link></li>
-            </ul>
-          </div>
-
-        </div>
-
-        {/* Bottom Bar: Copyright & Socials */}
-        <div className="mt-12 border-t border-gray-700 pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-sm text-gray-400 order-2 sm:order-1 mt-4 sm:mt-0">
-            &copy; {new Date().getFullYear()} Your Wedding Planner, Inc. All rights reserved.
-          </p>
-          
-          <div className="flex space-x-6 order-1 sm:order-2">
-            {socialLinks.map((item) => (
-              <a key={item.name} href={item.href} className="text-gray-400 hover:text-white transition-colors duration-300">
-                <span className="sr-only">{item.name}</span>
-                {/* --- 2. USE THE FONT AWESOME COMPONENT TO DISPLAY THE ICON --- */}
-                <FontAwesomeIcon icon={item.icon} size="lg" />
+          {/* Social Media Icons */}
+          <div className="flex space-x-6 mb-6">
+            {socialLinks.map(link => (
+              <a 
+                key={link.name} 
+                href={link.url} 
+                className="text-white hover:text-red-200 transition-colors duration-300"
+                aria-label={link.name}
+              >
+                <i className={`${link.icon} text-2xl`}></i>
               </a>
             ))}
+          </div>
+
+          {/* Copyright Text */}
+          <div className="border-t border-red-300 pt-6 w-full max-w-md mx-auto">
+            <p className="text-red-100">&copy; {new Date().getFullYear()} Ethio-Wedding Planner. All rights reserved.</p>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+};
+
+export default Footer;
+

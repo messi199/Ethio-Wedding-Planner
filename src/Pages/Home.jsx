@@ -1,42 +1,23 @@
 // src/Pages/Home.jsx
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
 
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar';
+import logo from "../assets/logo.png";
+import weddingImage1 from "../assets/images/wedding1.png";
+import weddingImage2 from "../assets/images/wedding2.png";
+import weddingImage3 from "../assets/images/wedding3.png";
 
-// --- ASSET IMPORTS ---
-import logo from '../assets/logo.png';
-import weddingImage1 from '../assets/images/wedding1.png';
-import weddingImage2 from '../assets/images/wedding2.png';
-import weddingImage3 from '../assets/images/wedding3.png';
-
-// --- SECTION COMPONENT IMPORTS ---
-import WhatWeOffer from '../components/home/WhatWeOffer';
-import WeddingHub from '../components/home/WeddingHub';
-import FeaturedVendors from '../components/home/FeaturedVendors';
-import AboutSection from '../components/home/AboutSection';
-import ContactSection from '../components/home/ContactSection';
+import WhatWeOffer from "../components/home/WhatWeOffer";
+import WeddingHub from "../components/home/WeddingHub";
+import GuestHub from "../components/home/GuestHub"; // new guest-specific component
+import FeaturedVendors from "../components/home/FeaturedVendors";
+import AboutSection from "../components/home/AboutSection";
+import ContactSection from "../components/home/ContactSection";
+import Footer from "../components/layout/Footer";
 
 const heroImages = [weddingImage1, weddingImage2, weddingImage3];
 
-// --- Helper Components ---
-// FIX: Replaced the placeholder comments with the actual component code.
-const LoadingScreen = () => (
-    <div className="h-screen w-full flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-rose-500"></div>
-    </div>
-);
-
-const ErrorScreen = ({ message }) => (
-    <div className="h-screen w-full flex flex-col items-center justify-center p-4 text-center bg-gray-50">
-        <h2 className="text-2xl font-bold text-red-600 mb-2">Oops! Something went wrong.</h2>
-        <p className="text-gray-700">{message}</p>
-        <Link to="/login" className="mt-4 text-rose-500 hover:underline">Please try logging in again.</Link>
-    </div>
-);
-
-
-// --- MAIN HOME COMPONENT ---
 export default function Home() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -44,29 +25,25 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // --- DATA FETCHING & SLIDER LOGIC ---
   useEffect(() => {
-    const fetchCurrentUser = () => {
-      try {
-        const storedUserJSON = localStorage.getItem('weddingPlannerUser');
-        if (!storedUserJSON) {
-          navigate('/login');
-          return;
-        }
-        const userData = JSON.parse(storedUserJSON);
-        const userWithAccountType = {
-          ...userData,
-          accountType: userData.type.toLowerCase()
-        };
-        setUser(userWithAccountType);
-      } catch (err) {
-        console.error('Failed to load user', err);
-        setError('Failed to load your session.');
-      } finally {
-        setIsLoading(false);
+    try {
+      const storedUserJSON = localStorage.getItem("weddingPlannerUser");
+      if (!storedUserJSON) {
+        navigate("/login");
+        return;
       }
-    };
-    fetchCurrentUser();
+      const userData = JSON.parse(storedUserJSON);
+      const userWithAccountType = {
+        ...userData,
+        accountType: userData.type.toLowerCase(),
+      };
+      setUser(userWithAccountType);
+    } catch (err) {
+      console.error("Failed to load user", err);
+      setError("Failed to load your session.");
+    } finally {
+      setIsLoading(false);
+    }
   }, [navigate]);
 
   useEffect(() => {
@@ -76,55 +53,66 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // --- RENDER STATES ---
-  if (isLoading) { return <LoadingScreen />; }
-  if (error) { return <ErrorScreen message={error} />; }
-  if (!user) { return null; }
-  
-  // --- THE DECORATED & ANIMATED RETURN BLOCK ---
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!user) return null;
+
   return (
-    <div className="bg-white">
+    <div className="bg-white font-sans">
       <Navbar logo={logo} isTransparent={true} user={user} />
 
-      {/* --- ENHANCED HERO SECTION --- */}
+      {/* HERO */}
       <div
         className="relative h-screen bg-cover bg-center flex items-center justify-center text-white text-center transition-all duration-1000"
         style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}
       >
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-rose-900/70 via-rose-700/50 to-black/40"></div>
         <div className="relative z-10 p-4">
-          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-4 animate-fade-in-up shadow-text">
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 bg-gradient-to-r from-rose-200 via-pink-300 to-rose-400 bg-clip-text text-transparent drop-shadow-xl">
             Craft Your Unforgettable Story
           </h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-            Your journey to "I do" should be as beautiful as the day itself. We're here to make it happen.
+          <p className="text-lg md:text-xl max-w-2xl mx-auto text-rose-100 drop-shadow-lg">
+            Your journey to "I do" should be as beautiful as the day itself.
+            We’re here to make it happen.
           </p>
-        </div>
-        <div className="absolute bottom-10 animate-bounce">
-           <svg className="w-8 h-8 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+          <Link
+            to="/vendors"
+            className="mt-8 inline-block px-8 py-3 bg-rose-500 text-white font-semibold rounded-full shadow-lg hover:bg-rose-600 hover:scale-105 transition-transform duration-300"
+          >
+            Explore Vendors
+          </Link>
         </div>
       </div>
 
-      {/* --- NEW DECORATED & ANIMATED SECTIONS --- */}
-      <WhatWeOffer />
-      <WeddingHub />
-      
-      {/* --- YOUR ORIGINAL SECTIONS --- */}
-      <div className="animate-fade-in-up"><FeaturedVendors /></div>
-      <div className="animate-fade-in-up"><AboutSection /></div>
-      <div className="animate-fade-in-up"><ContactSection /></div>
-      
-      {/* --- FOOTER SECTION --- */}
-      <footer className="bg-gray-800 text-gray-300">
-          <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; {new Date().getFullYear()} Your Wedding Planner, Inc. All rights reserved.</p>
-            <div className="mt-4 flex justify-center space-x-6">
-                <Link to="/about" className="hover:text-white">About</Link>
-                <Link to="/contact" className="hover:text-white">Contact</Link>
-                <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
-            </div>
-          </div>
-      </footer>
+      {/* SECTIONS */}
+      <section className="py-16 bg-pink-50">
+        <WhatWeOffer />
+      </section>
+
+      {user.accountType === "couple" && (
+        <section className="py-16 bg-gradient-to-b from-white to-pink-50">
+          <WeddingHub />
+        </section>
+      )}
+
+      {user.accountType === "guest" && (
+        <section className="py-16 bg-gradient-to-b from-white to-pink-50">
+          <GuestHub />
+        </section>
+      )}
+
+      <section className="py-16 bg-white">
+        <FeaturedVendors />
+      </section>
+
+      <section className="py-16 bg-pink-50">
+        <AboutSection />
+      </section>
+
+      <section className="py-16 bg-gradient-to-b from-white to-pink-50">
+        <ContactSection />
+      </section>
+      <Footer logo={logo} />
     </div>
   );
 }

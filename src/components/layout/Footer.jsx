@@ -48,11 +48,11 @@ const Footer = () => {
           <div className="border-t border-red-300 pt-6 w-full max-w-md mx-auto">
             <p className="text-red-100">&copy; {new Date().getFullYear()} Ethio-Wedding Planner. All rights reserved.</p>
           </div>
+          
         </div>
       </div>
     </footer>
   );
-}
 };
 
 export default Footer;

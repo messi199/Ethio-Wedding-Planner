@@ -1,7 +1,7 @@
 // src/components/layout/LandingNavbar.jsx
 
-import React, { useState, useEffect } from 'react';
-import logo from '../../assets/logo3.png'; // Make sure this path is correct
+import React, { useState, useEffect } from "react";
+import logo from "../../assets/logo3.png"; // Make sure this path is correct
 
 const LandingNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,22 +17,19 @@ const LandingNavbar = () => {
       }
     };
 
-    // Add event listener when the component mounts
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-    // Cleanup function to remove the event listener
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  // Dynamically change classes based on the isScrolled state
-  const navClasses = isScrolled
-    ? 'bg-white shadow-md' // Scrolled state
-    : 'bg-transparent';    // Top of page state
+  const navClasses = isScrolled ? "bg-white shadow-md" : "bg-transparent";
 
-  const brandTextClasses = isScrolled ? 'text-gray-800' : 'text-white';
-  const linkTextClasses = isScrolled ? 'text-gray-600 hover:text-red-600' : 'text-white hover:text-gray-200';
+  const brandTextClasses = isScrolled ? "text-gray-800" : "text-white";
+  const linkTextClasses = isScrolled
+    ? "text-gray-600 hover:text-red-600"
+    : "text-white hover:text-gray-200";
 
   return (
     <nav
@@ -40,16 +37,28 @@ const LandingNavbar = () => {
     >
       <div className="container mx-auto px-6 py-3 flex justify-between items-center">
         <div className="flex items-center">
-          <img src={logo} alt="Ethio-Wedding Planner Logo" className="h-10 w-auto" />
-          <span className={`ml-2 text-xl font-bold transition-colors duration-300 ${brandTextClasses}`}>
+          <img
+            src={logo}
+            alt="Ethio-Wedding Planner Logo"
+            className="h-10 w-auto"
+          />
+          <span
+            className={`ml-2 text-xl font-bold transition-colors duration-300 ${brandTextClasses}`}
+          >
             Ethio wedding-Planner
           </span>
         </div>
         <div>
-          <a href="/login" className={`px-4 py-2 transition-colors duration-300 ${linkTextClasses}`}>
+          <a
+            href="/login"
+            className={`px-4 py-2 transition-colors duration-300 ${linkTextClasses}`}
+          >
             Login
           </a>
-          <a href="/register" className="bg-red-500 text-white rounded-md px-4 py-2 hover:bg-red-600">
+          <a
+            href="/register"
+            className="bg-red-500 text-white rounded-md px-4 py-2 hover:bg-red-600"
+          >
             Register
           </a>
         </div>

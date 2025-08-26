@@ -1,5 +1,5 @@
 // src/hooks/useScrollAnimation.js
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from "react";
 
 export const useScrollAnimation = (options) => {
   const ref = useRef(null);
@@ -15,7 +15,7 @@ export const useScrollAnimation = (options) => {
           observer.unobserve(entry.target);
         }
       },
-      // You can customize the trigger point here
+
       { threshold: 0.1, ...options }
     );
 
@@ -30,6 +30,5 @@ export const useScrollAnimation = (options) => {
     };
   }, [options]);
 
-  // Return the ref for the element and the visibility state
   return [ref, isVisible];
 };

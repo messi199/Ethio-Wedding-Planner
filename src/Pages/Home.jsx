@@ -1,6 +1,7 @@
 // src/Pages/Home.jsx
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import Navbar from "../components/layout/Navbar";
 
 import logo from "../assets/logo.png";
@@ -10,7 +11,7 @@ import weddingImage3 from "../assets/images/wedding3.png";
 
 import WhatWeOffer from "../components/home/WhatWeOffer";
 import WeddingHub from "../components/home/WeddingHub";
-import GuestHub from "../components/home/GuestHub"; // new guest-specific component
+import GuestHub from "../components/home/GuestHub";
 import FeaturedVendors from "../components/home/FeaturedVendors";
 import AboutSection from "../components/home/AboutSection";
 import ContactSection from "../components/home/ContactSection";
@@ -20,31 +21,14 @@ const heroImages = [weddingImage1, weddingImage2, weddingImage3];
 
 export default function Home() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { user, loading } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    try {
-      const storedUserJSON = localStorage.getItem("weddingPlannerUser");
-      if (!storedUserJSON) {
-        navigate("/login");
-        return;
-      }
-      const userData = JSON.parse(storedUserJSON);
-      const userWithAccountType = {
-        ...userData,
-        accountType: userData.type.toLowerCase(),
-      };
-      setUser(userWithAccountType);
-    } catch (err) {
-      console.error("Failed to load user", err);
-      setError("Failed to load your session.");
-    } finally {
-      setIsLoading(false);
+    if (!loading && !user) {
+      navigate("/login");
     }
-  }, [navigate]);
+  }, [user, loading, navigate]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,15 +37,13 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div>Loading...</div>;
   if (!user) return null;
 
   return (
     <div className="bg-white font-sans">
       <Navbar logo={logo} isTransparent={true} user={user} />
 
-      {/* HERO */}
       <div
         className="relative h-screen bg-cover bg-center flex items-center justify-center text-white text-center transition-all duration-1000"
         style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}
@@ -73,7 +55,7 @@ export default function Home() {
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto text-rose-100 drop-shadow-lg">
             Your journey to "I do" should be as beautiful as the day itself.
-            We’re here to make it happen.
+            We're here to make it happen.
           </p>
           <Link
             to="/vendors"

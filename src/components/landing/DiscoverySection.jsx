@@ -1,11 +1,11 @@
 // src/components/landing/DiscoverySection.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 // Step 1: Import all the images you want to cycle through.
-import weddingImg1 from '../../assets/images/wedding4.png';
-import weddingImg2 from '../../assets/images/wedding5.png';
-import weddingImg3 from '../../assets/images/wedding6.png';
+import weddingImg1 from "../../assets/images/wedding4.png";
+import weddingImg2 from "../../assets/images/wedding5.png";
+import weddingImg3 from "../../assets/images/wedding6.png";
 
 // Step 2: Put the imported images into an array for easy access.
 const images = [weddingImg1, weddingImg2, weddingImg3];
@@ -19,7 +19,7 @@ const DiscoverySection = () => {
     // Set an interval to run a function every 5 seconds (5000 milliseconds).
     const intervalId = setInterval(() => {
       // Update the index, looping back to 0 when it reaches the end.
-      setCurrentImageIndex(prevIndex => (prevIndex + 1) % images.length);
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000); // You can change 5000 to 3000 for 3 seconds, etc.
 
     // This is a cleanup function that stops the timer when the component is removed.
@@ -28,7 +28,7 @@ const DiscoverySection = () => {
 
   return (
     // The main container must be relative to position the images inside it.
-    <section className="relative h-[60vh] md:h-[70vh] text-white overflow-hidden">
+    <section className="relative h-[60vh] md:h-[100vh] text-white overflow-hidden">
       {/* Step 5: Render all images, but only show the active one. */}
       {images.map((image, index) => (
         <div
@@ -51,9 +51,13 @@ const DiscoverySection = () => {
           Plan Your Perfect Wedding, Stress-Free
         </h1>
         <p className="text-lg mb-8 max-w-2xl mx-auto">
-          From checklists and budgets to vendors and guest lists, we have all the tools you need to bring your dream wedding to life.
+          From checklists and budgets to vendors and guest lists, we have all
+          the tools you need to bring your dream wedding to life.
         </p>
-        <a href="/register" className="bg-pink-500 font-bold rounded-full py-3 px-8 hover:bg-pink-600 transition duration-300">
+        <a
+          href="/register"
+          className="bg-pink-500 font-bold rounded-full py-3 px-8 hover:bg-pink-600 transition duration-300"
+        >
           Get Started for Free
         </a>
       </div>

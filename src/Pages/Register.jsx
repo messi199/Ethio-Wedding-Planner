@@ -48,7 +48,7 @@ const Register = () => {
       const result = await register(registrationData);
 
       if (result.success) {
-        navigate("/");
+        navigate("/home");
       } else {
         setError(result.error);
       }
@@ -61,14 +61,14 @@ const Register = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+      className="relative w-full min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
       style={{
         backgroundImage: `url(${weddingImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 bg-black/30"></div>
+      <div className="absolute inset-0 h-full w-full bg-black/30"></div>
 
       <div className="max-w-md w-full space-y-8 z-10">
         <div className="transparent-effect rounded-3xl shadow-2xl p-10">

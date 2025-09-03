@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+.font-playfair-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-montserrat { // You can use Montserrat for body text
+  font-family: 'Montserrat', sans-serif;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.delay-200 { animation-delay: 0.2s; }
+.delay-400 { animation-delay: 0.4s; }
+
+// For the text shadow
+.drop-shadow-lg {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+}
+.drop-shadow-md {
+    filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.4));
+}
+/* Smooth expand/collapse animation */
+.vendor-grid {
+  transition: all 0.5s ease;
+}
+
+/* Button hover effects */
+.more-categories-btn {
+  transition: all 0.3s ease;
+}
+
+.more-categories-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
